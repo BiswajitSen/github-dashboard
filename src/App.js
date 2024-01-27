@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import getMockCommitResponse from "./mocks/mockCommitResponse";
 import CommitGraph from "./components/CommitGraph/CommitGraph";
-import {
-  extractCommitShaAndTimeStamp,
-  fetchCommits,
-} from "./utils/api";
+import { extractCommitShaAndTimeStamp, fetchCommits } from "./utils/api";
+import Form from "./components/Form/Form";
 
 function App() {
-  const [gitProfile, setGitProfile] = useState(null);
-  const [gitRepo, setGitRepo] = useState(null);
-  const [sha, setSha] = useState(null);
   const [commitLog, setCommitLog] = useState(null);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    const commitLog = await fetchCommits(data);
+    setCommitLog(extractCommitShaAndTimeStamp(commitLog));
+  };
 
   useEffect(() => {
     async function getGitHubCommitData() {
@@ -35,42 +36,7 @@ function App() {
       }}>
       <h1>GitHub Commit Dashboard</h1>
 
-      <form style={{ display: "flex", gap: "10px" }}>
-        <label htmlFor='gitProfile'>User Name: </label>
-        <input
-          id={"gitProfile"}
-          onChange={(e) => {
-            const value = e.target.value;
-            setGitProfile(value);
-          }}></input>
-
-        <label htmlFor='repo'>Repository: </label>
-        <input
-          id={"repo"}
-          onChange={(e) => {
-            const value = e.target.value;
-            setGitRepo(value);
-          }}></input>
-
-        <label htmlFor='sha'>Last Commmit Sha: </label>
-        <input
-          id={"sha"}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSha(value);
-          }}></input>
-
-        <button
-          type='submit'
-          onClick={async (e) => {
-            e.preventDefault();
-            console.log({ gitProfile, gitRepo, sha });
-            const commitLog = await fetchCommits({ gitProfile, gitRepo, sha });
-            setCommitLog(extractCommitShaAndTimeStamp(commitLog));
-          }}>
-          Submit
-        </button>
-      </form>
+      <Form onSubmit={onSubmit} />
       {commitLog && <CommitGraph commits={commitLog} />}
     </div>
   );

@@ -1,3 +1,5 @@
+import { padStart } from "lodash";
+
 export const getDateInformation = (date) => {
   const [month, day, year] = new Date(date)
     .toLocaleString()
@@ -19,6 +21,8 @@ export const areDatesSame = (date1, date2) => {
 };
 
 export const formattedDateString = ({ day, month, year }) =>
-  [day, month, year].join("/");
+  [day, month, year]
+    .map((representation) => padStart(representation), 2, "0")
+    .join("/");
 
 export default getDateInformation;
