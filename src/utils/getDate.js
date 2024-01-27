@@ -18,4 +18,7 @@ export const areDatesSame = (date1, date2) => {
   );
 };
 
+export const formattedDateString = ({ day, month, year }) =>
+  [day, month, year].join("/");
+
 export default getDateInformation;

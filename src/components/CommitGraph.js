@@ -13,7 +13,7 @@ import {
   Title,
 } from "chart.js";
 import HashMap from "../utils/hashMap";
-import getDateInformation from "../utils/getDate";
+import getDateInformation, { formattedDateString } from "../utils/getDate";
 
 ChartJS.register(
   ArcElement,
@@ -31,8 +31,8 @@ const createCommitDetails = (commits) => {
   const commitInfo = new HashMap();
 
   commits.forEach(({ sha, date }) => {
-    const { year, month, day } = getDateInformation(date);
-    commitInfo.add(day + "/" + month + "/" + year, sha);
+    const dateInfo = getDateInformation(date);
+    commitInfo.add(formattedDateString(dateInfo), sha);
   });
 
   const labels = commitInfo.getKeys();
@@ -40,7 +40,6 @@ const createCommitDetails = (commits) => {
     commitInfo.getValueCount(label)
   );
 
-  console.log({ labels, commitCountPerDate });
   return { labels, commitCountPerDate };
 };
 
