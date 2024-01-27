@@ -18,6 +18,6 @@ describe("HashMap", () => {
     hashMap.add(1, 1);
     hashMap.add(1, 2);
     expect(hashMap.size()).toBe(1);
-    expect(hashMap.get(1)).toStrictEqual([1, 2]);
+    expect(hashMap.getValue(1)).toStrictEqual([1, 2]);
   });
 });

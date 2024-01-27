@@ -1,9 +1,14 @@
 import axios from "axios";
 import { GITHUB_ACCESS_TOKEN } from "../resources/env.local";
 
-const fetchCommits = async ({ repo, owner }) => {
-  const url = `https://api.github.com/repos/${owner}/${repo}`;
+export const extractCommitShaAndTimeStamp = (commitLog) =>
+  commitLog?.map((data) => ({
+    sha: data.sha,
+    date: data.commit.author.date,
+  }));
 
+export const fetchCommits = async ({ gitProfile, gitRepo, sha }) => {
+  const url = `https://api.github.com/repos/${gitProfile}/${gitRepo}/commits?per_page=100&sha=${sha}`;
   console.log("Requesting url", url);
 
   const response = await axios({
@@ -16,5 +21,3 @@ const fetchCommits = async ({ repo, owner }) => {
 
   return response.data;
 };
-
-export { fetchCommits };

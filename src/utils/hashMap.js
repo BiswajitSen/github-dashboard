@@ -12,7 +12,7 @@ class HashMap {
     selectedKey.push(value);
   }
 
-  get(key) {
+  getValue(key) {
     return this.#list.get(key);
   }
 
