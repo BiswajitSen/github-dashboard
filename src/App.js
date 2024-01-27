@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import getMockCommitResponse from "./mocks/mockCommitResponse";
-import CommitGraph from "./components/CommitGraph";
+import CommitGraph from "./components/CommitGraph/CommitGraph";
 import {
   extractCommitShaAndTimeStamp,
   fetchCommits,
-} from "./utils/fetchCmmits";
+} from "./utils/api";
 
 function App() {
   const [gitProfile, setGitProfile] = useState(null);
@@ -22,8 +22,19 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        width: "90vw",
+        border: "1px solid black",
+        margin: "0 auto",
+        padding: "20px",
+      }}>
       <h1>GitHub Commit Dashboard</h1>
+
       <form style={{ display: "flex", gap: "10px" }}>
         <label htmlFor='gitProfile'>User Name: </label>
         <input
@@ -32,6 +43,7 @@ function App() {
             const value = e.target.value;
             setGitProfile(value);
           }}></input>
+
         <label htmlFor='repo'>Repository: </label>
         <input
           id={"repo"}
@@ -47,6 +59,7 @@ function App() {
             const value = e.target.value;
             setSha(value);
           }}></input>
+
         <button
           type='submit'
           onClick={async (e) => {
@@ -59,7 +72,7 @@ function App() {
         </button>
       </form>
       {commitLog && <CommitGraph commits={commitLog} />}
-    </>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import getDateInformation, { areDatesSame } from "./getDate";
+import getDateInformation, { areDatesSame } from "./date";
 
 describe("Date", () => {
   it("should result in equal for same date", () => {
